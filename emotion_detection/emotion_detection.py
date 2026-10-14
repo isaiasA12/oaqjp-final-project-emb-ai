@@ -5,8 +5,27 @@ def emotion_detector(text_to_analyse): # Define a function named emotion detecto
     url = 'https://sn-watson-emotion.labs.skills.network/v1/watson.runtime.nlp.v1/NlpService/EmotionPredict' # URL of the emotion predict service
     myobj = { "raw_document": { "text": text_to_analyse } } # Create a dictionary with the text to be analyzed
     header = {"grpc-metadata-mm-model-id": "emotion_aggregated-workflow_lang_en_stock"} # Set the headers required for the API request
-    response = requests.post(url, json = myobj, headers=header) # Send a POST request to the API with the text and headers
+    try:
+        response = requests.post(url, json = myobj, headers=header, timeout=5)
+    except (requests.exceptions.RequestException, requests.exceptions.ConnectionError) as e:
+        return {
+            'anger': None, 'disgust': None, 'fear': None, 'joy': None,
+            'sadness': None, 'dominant_emotion': None
+        }
+
+    if response.status_code == 400:
+        return {
+            'anger': None, 'disgust': None, 'fear': None, 'joy': None,
+            'sadness': None, 'dominant_emotion': None
+        }
+
     formatted_response = json.loads(response.text)
+    if 'emotionPredictions' not in formatted_response:
+        return {
+            'anger': None, 'disgust': None, 'fear': None, 'joy': None,
+            'sadness': None, 'dominant_emotion': None
+        }
+    
     # Extract the first prediction block from the emotionPredictions list
     emotion_predictions = formatted_response.get('emotionPredictions', [{}])[0]
 
