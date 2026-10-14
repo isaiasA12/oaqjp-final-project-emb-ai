@@ -7,7 +7,6 @@ from EmotionDetection.emotion_detection import emotion_detector
 class TestEmotionDetector(unittest.TestCase):
     @patch('EmotionDetection.emotion_detection.requests.post')
     def test_emotion_detector(self, mock_post):
-        # Definisikan contoh respons dari server tiruan (mock)
         mock_response_joy = {'emotionPredictions': [{'emotion': {'joy': 0.9}}]}
         mock_response_anger = {'emotionPredictions': [{'emotion': {'anger': 0.9}}]}
         mock_response_disgust = {'emotionPredictions': [{'emotion': {'disgust': 0.9}}]}
@@ -16,7 +15,6 @@ class TestEmotionDetector(unittest.TestCase):
 
         # Test 'joy'
         mock_post.return_value.status_code = 200
-        # PERBAIKAN: Ubah dictionary menjadi string JSON untuk .text
         mock_post.return_value.text = json.dumps(mock_response_joy)
         result1 = emotion_detector("I am glad this happened")
         self.assertEqual(result1['dominant_emotion'], 'joy')
