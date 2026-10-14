@@ -4,7 +4,7 @@ detection to be executed over the Flask channel and deployed on
 localhost:5000.
 '''
 from flask import Flask, render_template, request
-from emotion_detection.emotion_detection import emotion_detector
+from EmotionDetection.emotion_detection import emotion_detector
 
 app = Flask("Emotion Detector")
 

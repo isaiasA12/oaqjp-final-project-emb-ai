@@ -1,11 +1,11 @@
 import unittest
 import json
 from unittest.mock import patch
-from emotion_detection.emotion_detection import emotion_detector
+from EmotionDetection.emotion_detection import emotion_detector
 
 
 class TestEmotionDetector(unittest.TestCase):
-    @patch('emotion_detection.emotion_detection.requests.post')
+    @patch('EmotionDetection.emotion_detection.requests.post')
     def test_emotion_detector(self, mock_post):
         # Definisikan contoh respons dari server tiruan (mock)
         mock_response_joy = {'emotionPredictions': [{'emotion': {'joy': 0.9}}]}
